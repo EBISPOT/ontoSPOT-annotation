@@ -36,9 +36,10 @@ This will create a virtual environment and install the required dependencies.
 
 You can run batch annotation with the following command:
 
-	```bash
-	make annotate_batch ONT=cl IN=input_data/your_file.csv
-	```
+```bash
+make annotate_batch ONT=cl IN=input_data/your_file.csv
+```
+
 Where:
 
 - `ONT` is the ontology you want to use (e.g., `cl`, `uberon`, `efo`).
