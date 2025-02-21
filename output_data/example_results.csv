@@ -1,0 +1,21 @@
+term,candidate_label,candidate_original_id,candidate_distance
+amacrine cell,amacrine cell,CL:0000561,6.430189841921674e-06
+amacrine cell,amacrine cell differentiation,GO:0035881,0.13745759427547455
+amacrine cell,monostratified amacrine cell,CL:0004226,0.18893367052078247
+amacrine cell,A2 amacrine cell,CL:0004219,0.19128650426864624
+amacrine cell,spider amacrine cell,CL:0004225,0.20477938652038574
+amacrine cell,glycinergic amacrine cell,CL:4030028,0.20818793773651123
+amacrine cell,WF3-1 amacrine cell,CL:0004242,0.20918387174606323
+amacrine cell,glycinergic-GABAergic amacrine cell,CL:4033091,0.21122205257415771
+amacrine cell,WF3-2 amacrine cell,CL:0004243,0.21396255493164062
+amacrine cell,fountain amacrine cell,CL:0004237,0.21399639546871185
+alveolar epithelial cell type 2,pulmonary alveolar type 2 cell,CL:0002063,0.1209600493311882
+alveolar epithelial cell type 2,alveolar capillary type 2 endothelial cell,CL:4028003,0.12764674425125122
+alveolar epithelial cell type 2,pulmonary alveolar epithelial cell,CL:0000322,0.13293340802192688
+alveolar epithelial cell type 2,fetal pre-type II pulmonary alveolar epithelial cell,CL:4040003,0.16005566716194153
+alveolar epithelial cell type 2,pulmonary alveolar type 1 cell,CL:0002062,0.18004682660102844
+alveolar epithelial cell type 2,alveolar type 1 fibroblast cell,CL:4028004,0.18314258754253387
+alveolar epithelial cell type 2,alveolar capillary type 1 endothelial cell,CL:4028002,0.1864561289548874
+alveolar epithelial cell type 2,pulmonary alveolus epithelium,UBERON:0004821,0.19299834966659546
+alveolar epithelial cell type 2,type-2 epithelial cell of thymus,CL:0002299,0.2099255919456482
+alveolar epithelial cell type 2,epithelial cell of lung,CL:0000082,0.21013770997524261

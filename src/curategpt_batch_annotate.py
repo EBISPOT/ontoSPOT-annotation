@@ -6,7 +6,7 @@ import os
 # Set the ontology name here (e.g., 'cl', 'uberon', 'efo')
 ONTOLOGY = "cl"
 # Path to the input CSV file (must contain a column named 'term')
-INPUT_FILE = "../input_data/annotate_terms.csv"
+INPUT_FILE = "../input_data/example.csv"
 # Path to the output CSV file
 OUTPUT_FILE = os.path.join("../output_data", os.path.basename(os.path.splitext(INPUT_FILE)[0]) + "_results.csv")
 # -----------------------------------------------------------------
