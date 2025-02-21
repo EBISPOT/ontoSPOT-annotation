@@ -1,4 +1,6 @@
 curate_venv/
 input_data/*
 !input_data/.gitkeep
+output_data/*
+!output_data/.gitkeep
 db/
