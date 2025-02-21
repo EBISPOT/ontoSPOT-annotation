@@ -1,14 +1,11 @@
 import csv
 import subprocess
 import os
+import argparse
 
 # ------------------------- Configuration -------------------------
-# Set the ontology name here (e.g., 'cl', 'uberon', 'efo')
-ONTOLOGY = "cl"
-# Path to the input CSV file (must contain a column named 'term')
-INPUT_FILE = "../input_data/example.csv"
-# Path to the output CSV file
-OUTPUT_FILE = os.path.join("../output_data", os.path.basename(os.path.splitext(INPUT_FILE)[0]) + "_results.csv")
+# Variables are passed via command-line arguments (ONTOLOGY and INPUT_FILE)
+# OUTPUT_FILE is automatically derived from INPUT_FILE.
 # -----------------------------------------------------------------
 
 def check_api_key():
@@ -79,9 +76,18 @@ def process_terms(input_file: str, output_file: str, ontology: str):
             print(f"Finished processing term: '{term}'.")
 
 def main():
+    parser = argparse.ArgumentParser(description="Batch annotate terms using curateGPT.")
+    parser.add_argument('--ontology', required=True, help="Ontology to use (e.g., 'cl', 'uberon', 'efo').")
+    parser.add_argument('--input', dest='input_file', required=True, help="Path to the input CSV file.")
+    args = parser.parse_args()
+
+    ontology = args.ontology
+    input_file = args.input_file
+    output_file = os.path.join("./output_data", os.path.basename(os.path.splitext(input_file)[0]) + "_results.csv")
+
     check_api_key()
-    process_terms(INPUT_FILE, OUTPUT_FILE, ONTOLOGY)
-    print(f"Results saved to '{OUTPUT_FILE}'.")
+    process_terms(input_file, output_file, ontology)
+    print(f"Results saved to '{output_file}'.")
 
 if __name__ == "__main__":
     main()
