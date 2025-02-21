@@ -17,14 +17,17 @@ help:
 	@echo ""
 	@echo "Targets:"
 	@echo "  annotate_batch   Run batch annotation (default: ONT=$(ONT), IN=$(IN))"
-	@echo "  clean            Remove output CSV files from output_data/"
+	@echo "  onto-<ontology>  Download ontology and create index (e.g., onto-uberon)"
+	@echo "  clean_output            Remove output CSV files from output_data/"
+	@echo "  clean_db            Remove databases files from db/"
 	@echo "  setup            Set up the virtual environment and install dependencies"
 	@echo "  help             Show this help message"
 	@echo ""
 	@echo "Examples:"
 	@echo "  make annotate_batch                   # Run with defaults"
+	@echo "  make onto-uberon                      # Download and index the Uberon ontology"
 	@echo "  make annotate_batch ONT=uberon IN=input_data/terms.csv"
-	@echo "  make clean                             # Clean output files"
+	@echo "  make clean_output                      # Clean output files"
 	@echo "  make setup                             # Create virtual environment and install requirements"
 	@echo ""
 
@@ -32,10 +35,19 @@ help:
 annotate_batch:
 	python3 ./src/curategpt_batch_annotate.py --ontology $(ONT) --input $(IN)
 
+# Define a generic target for downloading the ontology and creating the index
+onto-%:
+	curategpt ontology index -m openai: -c terms_$* sqlite:obo:$*
+
 # Clean output CSV files
-clean:
+clean_output:
 	rm -f output_data/*_results.csv
 	@echo "🧹 Output files cleaned."
+
+# Clean database
+clean_db:
+	rm -r db/*
+	@echo "🧹 Databases cleaned."
 
 # Set up virtual environment and install dependencies
 setup:

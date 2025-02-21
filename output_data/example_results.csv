@@ -1,21 +1,31 @@
 term,candidate_label,candidate_original_id,candidate_distance
-amacrine cell,amacrine cell,CL:0000561,6.430189841921674e-06
-amacrine cell,amacrine cell differentiation,GO:0035881,0.13745759427547455
-amacrine cell,monostratified amacrine cell,CL:0004226,0.18893367052078247
-amacrine cell,A2 amacrine cell,CL:0004219,0.19128650426864624
-amacrine cell,spider amacrine cell,CL:0004225,0.20477938652038574
-amacrine cell,glycinergic amacrine cell,CL:4030028,0.20818793773651123
-amacrine cell,WF3-1 amacrine cell,CL:0004242,0.20918387174606323
-amacrine cell,glycinergic-GABAergic amacrine cell,CL:4033091,0.21122205257415771
-amacrine cell,WF3-2 amacrine cell,CL:0004243,0.21396255493164062
-amacrine cell,fountain amacrine cell,CL:0004237,0.21399639546871185
-alveolar epithelial cell type 2,pulmonary alveolar type 2 cell,CL:0002063,0.1209600493311882
-alveolar epithelial cell type 2,alveolar capillary type 2 endothelial cell,CL:4028003,0.12764674425125122
-alveolar epithelial cell type 2,pulmonary alveolar epithelial cell,CL:0000322,0.13293340802192688
-alveolar epithelial cell type 2,fetal pre-type II pulmonary alveolar epithelial cell,CL:4040003,0.16005566716194153
-alveolar epithelial cell type 2,pulmonary alveolar type 1 cell,CL:0002062,0.18004682660102844
-alveolar epithelial cell type 2,alveolar type 1 fibroblast cell,CL:4028004,0.18314258754253387
-alveolar epithelial cell type 2,alveolar capillary type 1 endothelial cell,CL:4028002,0.1864561289548874
-alveolar epithelial cell type 2,pulmonary alveolus epithelium,UBERON:0004821,0.19299834966659546
-alveolar epithelial cell type 2,type-2 epithelial cell of thymus,CL:0002299,0.2099255919456482
-alveolar epithelial cell type 2,epithelial cell of lung,CL:0000082,0.21013770997524261
+terminal bronchiole,terminal bronchiole,UBERON:0002187,4.963026185578201e-06
+terminal bronchiole,terminal bronchus,UBERON:0002041,0.07278676331043243
+terminal bronchiole,terminal bronchiole epithelium,UBERON:0001958,0.10417964309453964
+terminal bronchiole,primary bronchiole,UBERON:0012067,0.11630170047283173
+terminal bronchiole,terminal bronchus epithelium,UBERON:0004818,0.1312382072210312
+terminal bronchiole,left lung terminal bronchiole,UBERON:0003541,0.1404494196176529
+terminal bronchiole,respiratory bronchiole,UBERON:0002188,0.14302197098731995
+terminal bronchiole,left lung bronchiole,UBERON:0003539,0.14849016070365906
+terminal bronchiole,lobular bronchiole,UBERON:8600000,0.14902326464653015
+terminal bronchiole,bronchiole,UBERON:0002186,0.15314404666423798
+mesosalpinx,mesosalpinx,UBERON:0012331,4.057616479258286e-06
+mesosalpinx,antimesosalpinx,UBERON:8600117,0.132333442568779
+mesosalpinx,mesometrium,UBERON:0003885,0.24686357378959656
+mesosalpinx,mucosa of fallopian tube,UBERON:0005048,0.28431180119514465
+mesosalpinx,endocervix,UBERON:0000458,0.2860659956932068
+mesosalpinx,mesentery,UBERON:0002095,0.28657862544059753
+mesosalpinx,submucosa of fallopian tube,UBERON:0011298,0.2878248691558838
+mesosalpinx,mesonephric sinus,UBERON:0006196,0.28863704204559326
+mesosalpinx,fimbria of fallopian tube,UBERON:8410010,0.28965049982070923
+mesosalpinx,subserosa of fallopian tube,UBERON:8480037,0.29117003083229065
+tongue,tongue,UBERON:0001723,3.0966584745328873e-06
+tongue,tongue muscle,UBERON:0000378,0.1413411796092987
+tongue,body of tongue,UBERON:0011876,0.17485278844833374
+tongue,tongue development,GO:0043586,0.19116374850273132
+tongue,surface of tongue,UBERON:0007367,0.19953356683254242
+tongue,gland of tongue,UBERON:0003409,0.20752586424350739
+tongue,tongue taste bud,UBERON:0014451,0.22818653285503387
+tongue,dorsum of tongue,UBERON:0009471,0.23254704475402832
+tongue,tongue muscle cell,CL:0002673,0.23294419050216675
+tongue,posterior part of tongue,UBERON:0010033,0.2329447865486145

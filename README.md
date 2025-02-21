@@ -30,6 +30,13 @@ Before running the script, ensure you have the following:
 	```bash
 	make setup
 	```
+
+3. Index your ontologyusing `ont-<ontology_name>`, e.g.:
+
+	```bash
+	make ont-cl
+	```
+
 This will create a virtual environment and install the required dependencies.
 
 ## Usage
