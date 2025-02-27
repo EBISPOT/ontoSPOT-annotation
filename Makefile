@@ -44,7 +44,7 @@ clean_output:
 	rm -f output_data/*_results.csv
 	@echo "🧹 Output files cleaned."
 
-# Clean database
+# Clean databases
 clean_db:
 	rm -r db/*
 	@echo "🧹 Databases cleaned."
