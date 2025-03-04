@@ -3,7 +3,6 @@ import openai
 import os
 import argparse
 
-
 # Check if the OpenAI API key is set
 def check_api_key():
     if 'OPENAI_API_KEY' not in os.environ:
@@ -17,7 +16,7 @@ def expand_abbreviation_with_chatgpt(term: str, domain: str):
         response = openai.chat.completions.create(
             model="gpt-4o",  # You can use other models as needed (e.g., "gpt-3.5-turbo")
             messages=[
-                {"role": "user", "content": f"In the context of {domain}, is '{term}' an abbreviation? If it is, provide the full expanded form. Also, if you encounter a '+' symbol, it is an abbreviation for '-positive'. In your answer, please only provide the full expanded form, not any other text. If it is not an abbreviation, return the exact same term."}
+                {"role": "user", "content": f"In the context of {domain}, is '{term}' an abbreviation? If it is, provide the full expanded form. Also, if you encounter a '+' symbol, it is an abbreviation for '-positive'. The '+' also indicates that it is positive for a biomarker (e.g.. CD4+ is CD4-positive), and the biomarker should not be altered (e.g., CD4+ will become 'CD4-positive', CD4 remains as it is). In your answer, please only provide the full expanded form, not any other text. If it is not an abbreviation, return the exact same term."}
             ],
             max_tokens=50,
             temperature=0.5,
@@ -36,8 +35,12 @@ def expand_abbreviation_with_chatgpt(term: str, domain: str):
         return term  # Return the original term in case of an error
 
 # Function to handle abbreviation checking for terms in a CSV file
-def process_terms(input_file: str, output_file: str, domain: str):
+def process_terms(input_file: str, domain: str):
     """Read input terms from a CSV, check abbreviations, and write expanded forms to output CSV."""
+    # Generate output file name by appending '_non_abbreviated' to the input file name
+    base_name = os.path.splitext(os.path.basename(input_file))[0]
+    output_file = f"output_data/{base_name}_non_abbreviated.csv"
+
     with open(input_file, newline='') as infile, open(output_file, mode='w', newline='') as outfile:
         reader = csv.DictReader(infile)
         fieldnames = ['term', 'expanded_term']
@@ -55,16 +58,16 @@ def process_terms(input_file: str, output_file: str, domain: str):
             writer.writerow({'term': term, 'expanded_term': expanded_term})
             print(f"Term '{term}' expanded to '{expanded_term}'.")
 
+    print(f"Results saved to '{output_file}'.")
+
 def main():
     parser = argparse.ArgumentParser(description="Batch expand abbreviations using ChatGPT.")
     parser.add_argument('--input', dest='input_file', required=True, help="Path to the input CSV file.")
-    parser.add_argument('--output', dest='output_file', required=True, help="Path to the output CSV file.")
     parser.add_argument('--domain', dest='domain', required=True, help="Domain for context (e.g., 'cell types').")
     args = parser.parse_args()
 
     check_api_key()  # Ensure the OpenAI API key is set
-    process_terms(args.input_file, args.output_file, args.domain)
-    print(f"Results saved to '{args.output_file}'.")
+    process_terms(args.input_file, args.domain)
 
 if __name__ == "__main__":
     main()
