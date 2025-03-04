@@ -4,11 +4,15 @@
 # Abbreviations:
 # ONT = ontology (e.g., cl, uberon, efo)
 # IN = input file path (e.g., input_data/example.csv)
+# DOMAIN = Indicates the domain of the abbreviations (e.g., cell type, disease)
 
 ONT ?= cl
 IN ?= input_data/example.csv
+OUT ?= output_data/expanded_abbreviations.csv
+DOMAIN ?= 'cell type'
 
 # ------------------------- Targets -------------------------
+all: help # Default target
 
 # Display help message
 help:
@@ -34,6 +38,9 @@ help:
 # Run the batch annotation script
 annotate_batch:
 	python3 ./src/curategpt_batch_annotate.py --ontology $(ONT) --input $(IN)
+
+expand_abbreviations:
+	python3 ./src/expand_abbreviations.py --input $(IN) --output $(OUT) --domain $(DOMAIN)
 
 # Define a generic target for downloading the ontology and creating the index
 onto-%:
