@@ -22,6 +22,7 @@ help:
 	@echo "  annotate_batch   Run batch annotation (default: ONT=cl, IN=input_data/example.csv))"
 	@echo "  expand_abbreviations  Expand abbreviations in the input CSV file using ChatGPT (default: IN=input_data/example.csv)"
 	@echo "  onto-<ontology>  Download ontology and create index (e.g., onto-uberon)"
+	@echo "  remove_duplicates  Remove duplicated terms in a list (default: IN=input_data/terms.csv)"
 	@echo "  clean_output            Remove output CSV files from output_data/"
 	@echo "  clean_db            Remove databases files from db/"
 	@echo "  setup            Set up the virtual environment and install dependencies"
@@ -32,6 +33,7 @@ help:
 	@echo "  make onto-uberon                      # Download and index the Uberon ontology"
 	@echo "  make annotate_batch ONT=uberon IN=input_data/terms.csv"
 	@echo "  make expand_abbreviations IN=input_data/terms.csv DOMAIN='anatomical parts'
+	@echo "  make remove_duplicates IN=input_data/terms.csv"
 	@echo ""
 
 # Run the batch annotation script
@@ -44,6 +46,10 @@ expand_abbreviations:
 # Define a generic target for downloading the ontology and creating the index
 onto-%:
 	curategpt ontology index -m openai: -c terms_$* sqlite:obo:$*
+
+# Remove duplicated terms in a list
+remove_duplicates:
+	python3 src/remove_duplicated_terms.py --input $(IN)
 
 # Clean output CSV files
 clean_output:
