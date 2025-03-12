@@ -45,7 +45,7 @@ expand_abbreviations:
 
 # Define a generic target for downloading the ontology and creating the index
 onto-%:
-	curategpt ontology index -m openai: -c terms_$* sqlite:obo:$*
+	curategpt ontology index -m openai:  -c terms_$* sqlite:obo:$*
 
 # Remove duplicated terms in a list
 remove_duplicates:

@@ -17,7 +17,7 @@ def search_term(ontology: str, term: str):
     """Search for a term using curategpt and return results."""
     try:
         result = subprocess.run(
-            ["curategpt", "search", "-c", f"terms_{ontology}", term],
+            ["curategpt", "search", "-c", f"terms_{ontology}", term, "-l", "5"],
             check=True, capture_output=True, text=True
         )
         return parse_search_output(result.stdout)
