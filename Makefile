@@ -9,6 +9,7 @@
 ONT ?= cl
 IN ?= input_data/example.csv
 DOMAIN ?= 'cell type'
+INPUT_CSV=input_data/efo_test.csv
 
 # ------------------------- Targets -------------------------
 all: help # Default target
@@ -50,6 +51,10 @@ onto-%:
 # Remove duplicated terms in a list
 remove_duplicates:
 	python3 src/remove_duplicated_terms.py --input $(IN)
+
+# Command to run the script
+annotate_efo:
+	python3 src/annotate_efo_to_hp.py $(INPUT_CSV)
 
 # Clean output CSV files
 clean_output:

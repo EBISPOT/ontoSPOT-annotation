@@ -2,6 +2,7 @@ import csv
 import subprocess
 import os
 import argparse
+from oaklib import get_adapter
 
 # ------------------------- Configuration -------------------------
 # Variables are passed via command-line arguments (ONTOLOGY and INPUT_FILE)
@@ -48,10 +49,13 @@ def parse_search_output(output: str):
     return candidates
 
 def process_terms(input_file: str, output_file: str, ontology: str):
+
+    oak_onto = get_adapter(f'sqlite:obo:${ontology}')
+
     """Read input terms, search candidates, and write results to output CSV."""
     with open(input_file, newline='') as infile, open(output_file, mode='w', newline='') as outfile:
         reader = csv.DictReader(infile)
-        fieldnames = ['term', 'candidate_label', 'candidate_original_id', 'candidate_distance']
+        fieldnames = reader.fieldnames+['candidate_label', 'candidate_original_id', 'candidate_distance']
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -61,18 +65,27 @@ def process_terms(input_file: str, output_file: str, ontology: str):
                 print("Warning: Empty term encountered. Skipping.")
                 continue
 
-            print(f"Searching candidates for term: '{term}'...")
+
+
+            print(f"Searching lexically for exact matches for term: '{term}'...")
+
+
+            print(f"Searching embeddings for term: '{term}'...")
+
+
             candidates = search_term(ontology, term)
             if not candidates:
                 writer.writerow({'term': term, 'candidate_label': '', 'candidate_original_id': '', 'candidate_distance': ''})
             else:
                 for candidate in candidates:
-                    writer.writerow({
-                        'term': term,
+                    res_row = {}
+                    res_row.update(row)
+                    res_row.update({
                         'candidate_label': candidate.get('label', ''),
                         'candidate_original_id': candidate.get('original_id', ''),
                         'candidate_distance': candidate.get('distance', '')
                     })
+                    writer.writerow(res_row)
             print(f"Finished processing term: '{term}'.")
 
 def main():
