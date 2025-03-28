@@ -45,7 +45,7 @@ expand_abbreviations:
 
 # Define a generic target for downloading the ontology and creating the index
 onto-%:
-	curategpt ontology index -m openai:  -c terms_$* sqlite:obo:$*
+	curategpt ontology index -m openai: --index-fields label,definition,relationships,aliases -c terms_$* sqlite:obo:$*
 
 # Remove duplicated terms in a list
 remove_duplicates:
@@ -63,8 +63,8 @@ clean_db:
 
 # Set up virtual environment and install dependencies
 setup:
-	python3 -m venv curate_venv
-	. curate_venv/bin/activate && pip install -r requirements.txt
+	python3.12 -m venv venv
+	. venv/bin/activate && pip install -r requirements.txt
 	@echo "✅ Virtual environment created and dependencies installed."
 
 # ------------------------- End -------------------------
