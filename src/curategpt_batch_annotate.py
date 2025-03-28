@@ -97,21 +97,14 @@ def process_terms(input_file: str, output_file: str, ontology: str):
             else:
                 subsumed = False
                 for candidate in candidates:
-                    for other_candidate in candidates:
-                        if candidate.get('original_id', '') != other_candidate.get('original_id', ''):
-                            if other_candidate.get('original_id', '') in oak_onto.ancestors(candidate.get('original_id', '')):
-                                print(f"    - candidate '{candidate.get('label', '')}' subsumed by another candidate '{other_candidate.get('label', '')}', only the superclass will be written")
-                                subsumed = True
-                                break
-                    if not subsumed:
-                        res_row = {}
-                        res_row.update(row)
-                        res_row.update({
-                            'candidate_label': candidate.get('label', ''),
-                            'candidate_original_id': candidate.get('original_id', ''),
-                            'candidate_distance': candidate.get('distance', '')
-                        })
-                        writer.writerow(res_row)
+                    res_row = {}
+                    res_row.update(row)
+                    res_row.update({
+                        'candidate_label': candidate.get('label', ''),
+                        'candidate_original_id': candidate.get('original_id', ''),
+                        'candidate_distance': candidate.get('distance', '')
+                    })
+                    writer.writerow(res_row)
             print(f"Finished processing term: '{term}'.")
 
 def main():
