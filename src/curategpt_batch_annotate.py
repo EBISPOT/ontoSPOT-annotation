@@ -50,7 +50,15 @@ def parse_search_output(output: str):
 
 def process_terms(input_file: str, output_file: str, ontology: str):
 
-    oak_onto = get_adapter(f'sqlite:obo:${ontology}')
+    oak_onto = get_adapter(f'sqlite:obo:{ontology}')
+    exact_matches = {}
+    for curie in oak_onto.entities():
+        label = oak_onto.label(curie)
+        exact_matches[label] = {'curie': curie, 'label': label}
+        alias_map = oak_onto.entity_alias_map(curie)
+        if 'oio:hasExactSynonym' in alias_map:
+            for alias in alias_map['oio:hasExactSynonym']:
+                exact_matches[alias] = {'curie': curie, 'label': alias}
 
     """Read input terms, search candidates, and write results to output CSV."""
     with open(input_file, newline='') as infile, open(output_file, mode='w', newline='') as outfile:
@@ -66,9 +74,19 @@ def process_terms(input_file: str, output_file: str, ontology: str):
                 continue
 
 
-
-            print(f"Searching lexically for exact matches for term: '{term}'...")
-
+            print(f"Searching for exact lexical matches for term: '{term}'...")
+            if term in exact_matches:
+                exact_match = exact_matches[term]
+                res_row = {}
+                res_row.update(row)
+                res_row.update({
+                    'candidate_label': exact_match['label'],
+                    'candidate_original_id': exact_match['curie'],
+                    'candidate_distance': 0
+                })
+                writer.writerow(res_row)
+                print(f"    - exact match found, will not search embeddings")
+                continue
 
             print(f"Searching embeddings for term: '{term}'...")
 
@@ -77,15 +95,23 @@ def process_terms(input_file: str, output_file: str, ontology: str):
             if not candidates:
                 writer.writerow({'term': term, 'candidate_label': '', 'candidate_original_id': '', 'candidate_distance': ''})
             else:
+                subsumed = False
                 for candidate in candidates:
-                    res_row = {}
-                    res_row.update(row)
-                    res_row.update({
-                        'candidate_label': candidate.get('label', ''),
-                        'candidate_original_id': candidate.get('original_id', ''),
-                        'candidate_distance': candidate.get('distance', '')
-                    })
-                    writer.writerow(res_row)
+                    for other_candidate in candidates:
+                        if candidate.get('original_id', '') != other_candidate.get('original_id', ''):
+                            if other_candidate.get('original_id', '') in oak_onto.ancestors(candidate.get('original_id', '')):
+                                print(f"    - candidate '{candidate.get('label', '')}' subsumed by another candidate '{other_candidate.get('label', '')}', only the superclass will be written")
+                                subsumed = True
+                                break
+                    if not subsumed:
+                        res_row = {}
+                        res_row.update(row)
+                        res_row.update({
+                            'candidate_label': candidate.get('label', ''),
+                            'candidate_original_id': candidate.get('original_id', ''),
+                            'candidate_distance': candidate.get('distance', '')
+                        })
+                        writer.writerow(res_row)
             print(f"Finished processing term: '{term}'.")
 
 def main():

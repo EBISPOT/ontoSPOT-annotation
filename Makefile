@@ -6,7 +6,7 @@
 # IN = input file path (e.g., input_data/example.csv)
 # DOMAIN = Indicates the domain of the abbreviations (e.g., cell type, disease)
 
-ONT ?= cl
+ONT ?= hp
 IN ?= input_data/example.csv
 DOMAIN ?= 'cell type'
 INPUT_CSV=input_data/efo_test.csv
