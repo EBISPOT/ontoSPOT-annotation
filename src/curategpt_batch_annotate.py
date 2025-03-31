@@ -2,6 +2,7 @@ import csv
 import subprocess
 import os
 import argparse
+from oaklib import get_adapter
 
 # ------------------------- Configuration -------------------------
 # Variables are passed via command-line arguments (ONTOLOGY and INPUT_FILE)
@@ -48,10 +49,21 @@ def parse_search_output(output: str):
     return candidates
 
 def process_terms(input_file: str, output_file: str, ontology: str):
+
+    oak_onto = get_adapter(f'sqlite:obo:{ontology}')
+    exact_matches = {}
+    for curie in oak_onto.entities():
+        label = oak_onto.label(curie)
+        exact_matches[label] = {'curie': curie, 'label': label}
+        alias_map = oak_onto.entity_alias_map(curie)
+        if 'oio:hasExactSynonym' in alias_map:
+            for alias in alias_map['oio:hasExactSynonym']:
+                exact_matches[alias] = {'curie': curie, 'label': alias}
+
     """Read input terms, search candidates, and write results to output CSV."""
     with open(input_file, newline='') as infile, open(output_file, mode='w', newline='') as outfile:
         reader = csv.DictReader(infile)
-        fieldnames = ['term', 'candidate_label', 'candidate_original_id', 'candidate_distance']
+        fieldnames = reader.fieldnames+['candidate_label', 'candidate_original_id', 'candidate_distance']
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -61,18 +73,38 @@ def process_terms(input_file: str, output_file: str, ontology: str):
                 print("Warning: Empty term encountered. Skipping.")
                 continue
 
-            print(f"Searching candidates for term: '{term}'...")
+
+            print(f"Searching for exact lexical matches for term: '{term}'...")
+            if term in exact_matches:
+                exact_match = exact_matches[term]
+                res_row = {}
+                res_row.update(row)
+                res_row.update({
+                    'candidate_label': exact_match['label'],
+                    'candidate_original_id': exact_match['curie'],
+                    'candidate_distance': 0
+                })
+                writer.writerow(res_row)
+                print(f"    - exact match found, will not search embeddings")
+                continue
+
+            print(f"Searching embeddings for term: '{term}'...")
+
+
             candidates = search_term(ontology, term)
             if not candidates:
                 writer.writerow({'term': term, 'candidate_label': '', 'candidate_original_id': '', 'candidate_distance': ''})
             else:
+                subsumed = False
                 for candidate in candidates:
-                    writer.writerow({
-                        'term': term,
+                    res_row = {}
+                    res_row.update(row)
+                    res_row.update({
                         'candidate_label': candidate.get('label', ''),
                         'candidate_original_id': candidate.get('original_id', ''),
                         'candidate_distance': candidate.get('distance', '')
                     })
+                    writer.writerow(res_row)
             print(f"Finished processing term: '{term}'.")
 
 def main():
