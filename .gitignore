@@ -2,3 +2,4 @@ venv/
 input_data/*
 output_data/*
 db/
+cl_embeddings/
